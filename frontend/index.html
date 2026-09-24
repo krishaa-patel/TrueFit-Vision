@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrueFit Vision</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="css/styles.css?v=21">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#home" data-nav="home">
+        <span class="brand-mark">TF</span>
+        TrueFit Vision
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="#home" data-nav="home" class="active">Home</a>
+        <a href="#customer" data-nav="customer">My Fit Profile</a>
+        <a href="#dashboard" data-nav="dashboard">Dashboard</a>
+        <a href="#about" data-nav="about">About</a>
+      </nav>
+
+      <a class="btn btn-primary nav-cta" href="#find-size">
+        Find My Size
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" type="button">
+        Menu
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================
+         HOME
+    ====================================================== -->
+    <section id="page-home" class="page active">
+      <div class="hero-wrap">
+        <div class="container">
+          <div class="hero-banner">
+            <img
+              src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1800&q=80"
+              alt="Clothing prepared for online shopping"
+            >
+
+            <div class="hero-overlay">
+              <div class="hero-copy">
+                <span class="eyebrow">Visual clothing fit</span>
+
+               <h1>
+                  Find Your Best Fit Online
+                </h1>
+
+              <p class="lede">
+                  Create a fit profile from a garment you already own,
+                  upload a retailer size chart, and let TrueFit compare
+                  the available sizes with your preferred fit.
+                </p>
+
+                <div class="hero-actions">
+                  <a class="btn btn-primary" href="#find-size">Find My Size</a>
+                  <a class="btn btn-ghost" href="#customer" data-nav="customer">
+                    Create Fit Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <div class="section-header">
+          <span class="section-kicker">How it works</span>
+          <h2>One reference garment. One retailer chart. A clearer size choice.</h2>
+          <p>
+            TrueFit Vision compares garment measurements rather than assuming
+            that the same S/M/L label means the same thing across products.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">1</div>
+            <h3>Create your fit profile</h3>
+            <p>
+              Measure a garment you already own that fits the way you like.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-num">2</div>
+            <h3>Upload a size chart</h3>
+            <p>
+              OCR extracts size labels, chest width and garment length from a screenshot.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-num">3</div>
+            <h3>Compare available sizes</h3>
+            <p>
+              TrueFit shows the closest available size and how close that match really is.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <!-- ==================================================
+           FIND MY SIZE
+      =================================================== -->
+      <div class="container section" id="find-size">
+        <div class="section-header">
+          <span class="section-kicker">Size Recommendation</span>
+          <h2>Find My Size</h2>
+          <p>
+            Select your saved fit profile, upload a retailer size chart,
+            verify the extracted values and compare the available sizes.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          <div class="panel">
+            <div class="field">
+              <label for="fit-profile-select">Fit Profile</label>
+              <select id="fit-profile-select">
+                <option value="">Loading profiles…</option>
+              </select>
+            </div>
+
+            <div class="customer-meta">
+              <div class="mini-stat">
+                <span>Preferred Chest</span>
+                <strong id="find-profile-chest">—</strong>
+              </div>
+
+              <div class="mini-stat">
+                <span>Preferred Length</span>
+                <strong id="find-profile-length">—</strong>
+              </div>
+            </div>
+
+            <p class="hint">
+              Reference fit:
+              <strong id="find-profile-preference">—</strong>
+            </p>
+
+            <div class="field">
+              <label for="product-name">Product name</label>
+              <input
+                id="product-name"
+                type="text"
+                placeholder="Nike Cotton T-Shirt"
+              >
+            </div>
+
+            <div class="field">
+              <label>Product size chart</label>
+              <p class="hint">
+                Upload a screenshot of the retailer's chart. TrueFit will try
+                to extract size, chest width and garment length automatically.
+              </p>
+            </div>
+
+            <label
+              class="dropzone"
+              id="size-chart-dropzone"
+              for="size-chart-file"
+            >
+              <div>
+                <strong>Upload size-chart screenshot</strong>
+                <p>JPG or PNG</p>
+              </div>
+            </label>
+
+            <input
+              id="size-chart-file"
+              type="file"
+              accept="image/jpeg,image/png,image/jpg"
+              hidden
+            >
+
+            <button
+              type="button"
+              class="btn btn-primary btn-wide"
+              id="extract-size-chart-btn"
+            >
+              Read Size Chart
+            </button>
+
+            <div id="ocr-status" class="status" hidden></div>
+
+            <details id="ocr-preview-wrap" class="ocr-details" hidden>
+              <summary>View detected text</summary>
+              <div id="ocr-preview" class="ocr-raw-text"></div>
+            </details>
+
+            <div id="extracted-sizes-wrap" class="extracted-wrap" hidden>
+              <div class="extracted-header">
+                <div>
+                  <h3>Detected measurements</h3>
+                  <p class="hint">
+                    Review and correct the values before getting a recommendation.
+                  </p>
+                </div>
+
+                <div class="size-unit-control">
+                  <label for="size-chart-unit">Units</label>
+                  <select id="size-chart-unit">
+                    <option value="cm">Centimeters (cm)</option>
+                    <option value="in">Inches (in)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table id="product-size-table">
+                  <thead>
+                    <tr>
+                      <th>Size</th>
+                      <th>Chest width</th>
+                      <th>Length</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="product-size-body"></tbody>
+                </table>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-ghost btn-wide"
+                id="add-size-row-btn"
+              >
+                + Add / correct size manually
+              </button>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-primary btn-wide"
+              id="find-size-btn"
+            >
+              Find My Best Size
+            </button>
+
+            <div id="find-size-status" class="status" hidden></div>
+          </div>
+
+          <div class="panel recommendation-panel">
+            <h3>Recommendation</h3>
+
+            <div id="size-result-empty" class="placeholder">
+              Your recommendation will appear here after you read or enter a size chart.
+            </div>
+
+            <div id="size-result-panel" class="results" hidden>
+              <span class="section-kicker">Closest Available Size</span>
+
+              <div id="recommended-size" class="recommended-size">—</div>
+
+              <div id="match-quality" class="match-quality">—</div>
+               <div class="similarity-score-wrap">
+
+              <strong id="similarity-score">
+                —
+              </strong>
+            
+              <span>
+                Dimensional Match
+              </span>
+            
+            </div>
+              <h3 id="recommended-product">—</h3>
+
+              <p id="recommendation-summary" class="recommendation-summary"></p>
+
+              <div class="stat-row">
+                <div class="stat">
+                  <b id="recommended-chest-diff">—</b>
+                  <span>Chest difference</span>
+                </div>
+
+                <div class="stat">
+                  <b id="recommended-length-diff">—</b>
+                  <span>Length difference</span>
+                </div>
+              </div>
+
+              <p class="hint recommendation-note">
+                The closest available size is based on dimensional similarity
+                to your saved reference garment. Match quality shows whether
+                that closest size is actually close to your preferred fit.
+              </p>
+
+              <details class="comparison-details">
+                <summary>See size comparison details</summary>
+
+                <p class="hint">
+                  This explains why TrueFit selected the closest available size.
+                </p>
+
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Size</th>
+                        <th>Chest difference</th>
+                        <th>Length difference</th>
+                        <th>Overall difference</th>
+                      </tr>
+                    </thead>
+                    <tbody id="size-comparison-table"></tbody>
+                  </table>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         MY FIT PROFILE
+    ====================================================== -->
+    <section id="page-customer" class="page page-customer">
+      <div class="customer-stage">
+        <div class="container customer-single">
+          <div class="page-head page-head-left">
+            <span class="section-kicker">Your Fit</span>
+            <h1>Create My Fit Profile</h1>
+            <p class="page-intro">
+              Use a garment you already own and like the fit of. Lay it flat,
+              place an A4 sheet beside it, then let TrueFit estimate chest width
+              and garment length.
+            </p>
+          </div>
+
+          <form class="panel" id="fit-profile-form">
+            <div class="field">
+              <label for="profile-name">Profile name</label>
+              <input
+                id="profile-name"
+                type="text"
+                required
+                placeholder="Krisha"
+              >
+            </div>
+
+            <div class="field">
+              <label for="reference-garment-name">Reference garment</label>
+              <input
+                id="reference-garment-name"
+                type="text"
+                placeholder="Favourite Green T-Shirt"
+              >
+            </div>
+
+            <div class="field">
+              <label for="fit-preference">How does this garment fit you?</label>
+              <select id="fit-preference">
+                <option value="snug">Snug</option>
+                <option value="regular" selected>Regular</option>
+                <option value="relaxed">Relaxed</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="profile-ref-width">
+                A4 reference length in pixels — optional
+              </label>
+              <input
+                id="profile-ref-width"
+                type="number"
+                min="1"
+                placeholder="Leave blank to auto-detect"
+              >
+            </div>
+
+            <p class="hint">
+              Auto-detection is attempted first. If the result is inaccurate,
+              use the two-point manual calibration below.
+            </p>
+
+            <label
+              class="dropzone"
+              id="profile-dropzone"
+              for="profile-file-input"
+            >
+              <div>
+                <strong>Upload your well-fitting garment + A4</strong>
+                <p>JPG or PNG</p>
+              </div>
+            </label>
+
+            <input
+              id="profile-file-input"
+              type="file"
+              accept="image/jpeg,image/png,image/jpg"
+              hidden
+            >
+
+              <!-- SAMPLE IMAGE GUIDE -->
+                <div class="sample-upload-guide">
+                
+                  <p class="sample-upload-title">
+                    Example photo
+                  </p>
+                
+                 <img
+                  src="/images/sample-garment-a4.jpg"
+                  alt="Example garment photo with A4 sheet beside it"
+                  class="sample-upload-image"
+                >
+                                
+                
+                </div>
+
+
+
+            <div id="profile-calibration-wrap" class="calibration-wrap" hidden>
+              <p class="hint">
+                Manual calibration: click one end of the A4 sheet's
+                <strong>29.7 cm edge</strong>, then click the other end.
+              </p>
+
+              <div id="profile-calibration-stage" class="calibration-stage">
+                <img
+                  id="profile-calibration-img"
+                  alt="Garment calibration preview"
+                >
+                <div id="profile-pin-a" class="calib-pin" hidden></div>
+                <div id="profile-pin-b" class="calib-pin" hidden></div>
+              </div>
+
+              <p id="profile-calib-feedback" class="hint calibration-feedback">
+                Auto-detection will be used if you do not select manual points.
+              </p>
+
+              <button
+                type="button"
+                id="profile-recalibrate-btn"
+                class="btn btn-ghost"
+              >
+                Reset points
+              </button>
+            </div>
+
+            <button
+  class="btn btn-primary btn-wide"
+  type="button"
+  id="measure-profile-btn"
+>
+  Measure Garment
+</button>
+
+
+<div
+  id="profile-measurement-preview"
+  class="profile-measurement-preview"
+  hidden
+>
+
+  <span class="section-kicker">
+    Measurement Preview
+  </span>
+
+  <h3>
+    Check before saving
+  </h3>
+
+  <div class="customer-meta">
+
+    <div class="mini-stat">
+
+      <span>
+        Chest Width
+      </span>
+
+      <strong id="preview-profile-chest">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="mini-stat">
+
+      <span>
+        Garment Length
+      </span>
+
+      <strong id="preview-profile-length">
+        —
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <p class="hint">
+    Compare these measurements with your garment.
+    If they look incorrect, recalibrate before saving.
+  </p>
+
+
+  <div class="profile-preview-actions">
+
+    <button
+      class="btn btn-primary"
+      type="button"
+      id="save-profile-btn"
+    >
+      Save Fit Profile
+    </button>
+
+
+    <button
+      class="btn btn-ghost"
+      type="button"
+      id="remeasure-profile-btn"
+    >
+      Recalibrate / Measure Again
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  id="fit-profile-status"
+  class="status"
+  hidden
+></div>
+          </form>
+
+          <div class="panel profile-table-panel">
+
+          <div class="profile-table-header">
+        
+            <h3>
+              Saved Fit Profiles
+            </h3>
+        
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="measure-another-garment-btn"
+            >
+              + Measure Another Garment
+            </button>
+        
+          </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Profile</th>
+                    <th>Reference garment</th>
+                    <th>Chest</th>
+                    <th>Length</th>
+                    <th>Fit preference</th>
+                  </tr>
+                </thead>
+                <tbody id="fit-profiles-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+    <section id="page-dashboard" class="page page-dashboard">
+      <div class="dash-banner">
+        <img
+          src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1800&q=80"
+          alt="Clothing on hangers"
+        >
+
+        <div class="dash-banner-copy">
+          <span class="section-kicker">Pilot Validation</span>
+          <h1>Dashboard</h1>
+          <p>
+            Measurement validation and recent size recommendations.
+          </p>
+        </div>
+      </div>
+
+      <div class="container dash-body">
+        <div class="metrics">
+          <div class="stat">
+            <span class="stat-icon">↕</span>
+            <b id="avg-chest-error">—</b>
+            <span>Avg. chest error</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-icon">↕</span>
+            <b id="avg-length-error">—</b>
+            <span>Avg. length error</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-icon">▣</span>
+            <b id="garments-tested">—</b>
+            <span>Garments tested</span>
+          </div>
+        </div>
+
+        <div class="panel callout-panel">
+          <h3>About this validation</h3>
+          <p>
+            This remains a pilot-scale validation, not a production benchmark.
+            The current computer-vision pipeline has been tested on a small set
+            of garments and still has limitations involving calibration,
+            segmentation, camera perspective and varied backgrounds.
+          </p>
+        </div>
+
+        <div class="panel chart-box">
+          <h3>Estimated vs actual chest width</h3>
+          <canvas id="accuracy-chart" height="120"></canvas>
+        </div>
+
+
+        <div class="panel">
+          <h3>Recent Size Recommendations</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Profile</th>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Match</th>
+                    <th>Similarity</th>
+                    <th>Chest Diff</th>
+                    <th>Length Diff</th>
+                    <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="recommendations-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <!-- =====================================================
+     ABOUT TRUEFIT VISION
+====================================================== -->
+
+<section
+  id="page-about"
+  class="page page-about"
+>
+
+  <div class="container about-showcase">
+
+
+    <!-- HERO -->
+    <div class="about-showcase-hero">
+
+      <div class="about-showcase-copy">
+
+        <span class="about-eyebrow">
+          COMPUTER VISION · E-COMMERCE
+        </span>
+
+        <h1>
+          TRUEFIT
+          <span>VISION</span>
+        </h1>
+
+        <h2>
+          Smarter size recommendations
+          from clothes you already trust.
+        </h2>
+
+        <p>
+          TrueFit Vision measures a well-fitting garment,
+          creates a reusable Fit Profile, and compares it
+          with retailer size charts to identify the closest
+          available size.
+        </p>
+
+
+      </div>
+
+
+      <div class="about-showcase-visual">
+
+        <div class="about-image-shape"></div>
+
+        <img
+          src="/images/about-truefit.jpg"
+          alt="TrueFit Vision garment sizing concept"
+        >
+
+        <div class="about-floating-tag">
+          <span>DIMENSIONAL</span>
+          <strong>FIT MATCHING</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="about-stats">
+
+      <div class="about-stat">
+        <strong>4</strong>
+        <span>Garments Tested</span>
+      </div>
+
+      <div class="about-stat">
+        <strong>4</strong>
+        <span>Fit Profiles</span>
+      </div>
+
+      <div class="about-stat">
+        <strong>3</strong>
+        <span>Retailer Charts</span>
+      </div>
+
+      <div class="about-stat">
+        <strong>CV + OCR</strong>
+        <span>Core Pipeline</span>
+      </div>
+
+    </div>
+
+
+    <!-- WHAT IT DOES -->
+    <div class="about-section-heading">
+
+      <span class="section-kicker">
+        WHAT IT DOES
+      </span>
+
+      <h2>
+        From your favourite garment
+        to a closer size match.
+      </h2>
+
+    </div>
+
+
+    <div class="about-feature-grid">
+
+
+      <article class="about-project-card">
+
+        <span class="feature-number">
+          01
+        </span>
+
+        <h3>
+          Garment Measurement
+        </h3>
+
+        <p>
+          Upload a flat garment with an A4 sheet.
+          TrueFit Vision estimates chest width and
+          garment length using computer vision.
+        </p>
+
+        <div class="feature-mini">
+          Computer Vision
+        </div>
+
+      </article>
+
+
+      <article class="about-project-card">
+
+        <span class="feature-number">
+          02
+        </span>
+
+        <h3>
+          Fit Profile
+        </h3>
+
+        <p>
+          Save the dimensions of a garment you already
+          know fits well and reuse it as your personal
+          sizing reference.
+        </p>
+
+        <div class="feature-mini">
+          PostgreSQL
+        </div>
+
+      </article>
+
+
+      <article class="about-project-card">
+
+        <span class="feature-number">
+          03
+        </span>
+
+        <h3>
+          Size Chart Extraction
+        </h3>
+
+        <p>
+          Upload a retailer size-chart screenshot.
+          OCR assists with extracting size, chest and
+          length values before user verification.
+        </p>
+
+        <div class="feature-mini">
+          Tesseract OCR
+        </div>
+
+      </article>
+
+
+      <article class="about-project-card">
+
+        <span class="feature-number">
+          04
+        </span>
+
+        <h3>
+          Closest Size Match
+        </h3>
+
+        <p>
+          Product dimensions are compared with your
+          Fit Profile to find the closest available size
+          and calculate dimensional similarity.
+        </p>
+
+        <div class="feature-mini">
+          Similarity Matching
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- TECH + PROCESS -->
+<div class="about-bottom-grid about-tools-only">
+
+      <!-- TECH -->
+      <div class="about-tools-panel">
+
+        <span class="section-kicker">
+          TECHNOLOGY
+        </span>
+
+        <h2>
+          Tools behind TrueFit
+        </h2>
+
+
+        <div class="about-tool-grid">
+
+          <div class="about-tool">
+            <strong>Python</strong>
+            <span>Core logic</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>OpenCV</strong>
+            <span>Image processing</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>PyTorch</strong>
+            <span>Computer vision</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>Hugging Face</strong>
+            <span>Vision model</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>FastAPI</strong>
+            <span>Backend API</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>PostgreSQL</strong>
+            <span>Data storage</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>Tesseract</strong>
+            <span>OCR extraction</span>
+          </div>
+
+          <div class="about-tool">
+            <strong>JavaScript</strong>
+            <span>Frontend logic</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+    <!-- FINAL BANNER -->
+    <div class="about-closing-banner">
+
+      <div>
+
+        <span class="section-kicker">
+          PROJECT GOAL
+        </span>
+
+        <h2>
+          Reduce uncertainty in
+          online clothing sizes.
+        </h2>
+
+      </div>
+
+
+      <p>
+        TrueFit Vision is a prototype decision-support system.
+        It recommends the closest dimensional match rather than
+        guaranteeing fit, because fabric, construction and body
+        shape can also influence how clothing feels when worn.
+      </p>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      TrueFit Vision — visual garment measurement and size recommendation
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="js/app.js?v=21"></script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+psycopg2-binary
+numpy
+opencv-python
+Pillow
+torch
+transformers
+python-dotenv
